@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abacus — Style Guide</title>
+
+  <!--
+    Living style guide. NOT part of the built app — this loads Optics from the CDN so
+    it can be opened directly in a browser with no build step. The real app installs
+    @rolemodel/optics via npm (see src/stylesheet/); keep this file's theme block in
+    sync with src/stylesheet/theme/_theme.css by hand.
+
+    This file is meant to grow with the project: as real components get designed and
+    built, add them here too, so this stays a living reference for what's themed and
+    what a component looks like — not a one-off prototype. Do not treat the layout as
+    a finished UI spec until noted otherwise — see dev_notes/ROADMAP.md for what's
+    settled vs. still in flux.
+  -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@rolemodel/optics/dist/css/optics.css"
+  />
+
+  <style>
+    /* Abacus theme tokens — same values as src/stylesheet/theme/_theme.css.
+       Keep these two files in sync manually; this one is CDN-only scratch space. */
+    :root {
+      /* Primary — Rust. Trying this in place of the original teal. */
+      --op-color-primary-h: 16;
+      --op-color-primary-s: 55%;
+      --op-color-primary-l: 42%;
+
+      /* Neutral — warm slate */
+      --op-color-neutral-h: 30;
+      --op-color-neutral-s: 8%;
+      --op-color-neutral-l: 50%;
+
+      /* Accent — Bead Amber (#F08F19), project-prefixed per Optics convention */
+      --ab-color-accent-h: 33;
+      --ab-color-accent-s: 88%;
+      --ab-color-accent-l: 52%;
+      --ab-color-accent-base: hsl(var(--ab-color-accent-h) var(--ab-color-accent-s) var(--ab-color-accent-l));
+
+      /* Alerts — see src/stylesheet/theme/_theme.css for the full rationale.
+         danger: Optics' default fails WCAG AA in the filled variant (l76% is too
+         light to pair with white text); lowered to l42% (~6.1:1 contrast).
+         warning: Optics' default (h47) clusters with our rust/amber; pushed to
+         h50 + higher saturation for a color that reads as distinct at a glance. */
+      --op-color-alerts-danger-h: 2;
+      --op-color-alerts-danger-s: 80%;
+      --op-color-alerts-danger-l: 42%;
+
+      --op-color-alerts-warning-h: 50;
+      --op-color-alerts-warning-s: 92%;
+      --op-color-alerts-warning-l: 55%;
+    }
+
+    body {
+      max-width: 60em;
+      margin: 0 auto;
+      padding: var(--op-space-large, 2rem);
+    }
+
+    .scratch-note {
+      margin-bottom: var(--op-space-large, 2rem);
+      padding: var(--op-space-medium, 1rem);
+      border: var(--op-border-width, 1px) dashed var(--op-color-border, #ccc);
+      border-radius: var(--op-radius-small, 4px);
+    }
+
+    .preview-section {
+      margin-bottom: var(--op-space-x-large, 3rem);
+    }
+
+    .preview-section > h2 {
+      margin-bottom: var(--op-space-small, 0.5rem);
+    }
+
+    .preview-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--op-space-small, 0.5rem);
+      align-items: center;
+      margin-bottom: var(--op-space-medium, 1rem);
+    }
+
+    /* --- Swatch grid: not an Optics component, just a way to SEE the theme's raw
+       HSL scale before it's applied to anything. --- */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: var(--op-space-small, 0.5rem);
+    }
+
+    .swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 72px;
+      border-radius: var(--op-radius-small, 4px);
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+
+    .swatch--primary-plus-two   { background: var(--op-color-primary-plus-two);   color: var(--op-color-primary-on-plus-two); }
+    .swatch--primary-base       { background: var(--op-color-primary-base);       color: var(--op-color-primary-on-base); }
+    .swatch--primary-minus-two  { background: var(--op-color-primary-minus-two);  color: var(--op-color-primary-on-minus-two); }
+    .swatch--neutral-plus-two   { background: var(--op-color-neutral-plus-two);   color: var(--op-color-neutral-on-plus-two); }
+    .swatch--neutral-base       { background: var(--op-color-neutral-base);       color: var(--op-color-neutral-on-base); }
+    .swatch--neutral-minus-two  { background: var(--op-color-neutral-minus-two);  color: var(--op-color-neutral-on-minus-two); }
+    .swatch--accent             { background: var(--ab-color-accent-base);        color: var(--op-color-white, #fff); }
+    .swatch--danger              { background: var(--op-color-alerts-danger-base, hsl(var(--op-color-alerts-danger-h) var(--op-color-alerts-danger-s) var(--op-color-alerts-danger-l))); color: var(--op-color-white, #fff); }
+  </style>
+</head>
+<body>
+  <div class="scratch-note">
+    <strong>Theme preview, not a screen design.</strong> Everything below uses real
+    Optics component classes (button, badge, alert, card, table) with the Abacus theme
+    tokens applied, so the colors can be judged against real UI, not just swatches.
+    Layout/spacing here is throwaway — see <code>dev_notes/ROADMAP.md</code>.
+  </div>
+
+  <h1>Abacus</h1>
+  <p>NC sales tax, split by county.</p>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Raw palette</h2>
+    <div class="swatch-grid">
+      <div class="swatch swatch--primary-plus-two">primary +2</div>
+      <div class="swatch swatch--primary-base">primary base</div>
+      <div class="swatch swatch--primary-minus-two">primary -2</div>
+      <div class="swatch swatch--neutral-plus-two">neutral +2</div>
+      <div class="swatch swatch--neutral-base">neutral base</div>
+      <div class="swatch swatch--neutral-minus-two">neutral -2</div>
+      <div class="swatch swatch--accent">accent (amber)</div>
+      <div class="swatch swatch--danger">alert danger</div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Buttons</h2>
+    <div class="preview-row">
+      <button class="btn btn--primary">Primary action</button>
+      <button class="btn">Default</button>
+      <button class="btn btn--destructive">Destructive</button>
+      <button class="btn btn--warning">Warning</button>
+      <button class="btn" disabled>Disabled</button>
+      <button class="btn btn--small btn--primary">Copy</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Badges &amp; tags</h2>
+    <div class="preview-row">
+      <span class="badge badge--primary">Primary</span>
+      <span class="badge badge--info">Info</span>
+      <span class="badge badge--warning">Warning</span>
+      <span class="badge badge--danger">Danger</span>
+      <span class="badge badge--pill badge--primary">7.25%</span>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Alerts (this is what disclaimers / tolerance errors will use)</h2>
+    <div class="alert alert--info">
+      <div class="alert__title">Rules last verified 2026-08-29</div>
+      <div class="alert__description">
+        Always double-check every number against the official NCDOR filing system.
+      </div>
+    </div>
+    <br />
+    <div class="alert alert--warning">
+      <div class="alert__title">Not affiliated with the NC DOR</div>
+      <div class="alert__description">
+        Abacus computes and formats. You are responsible for reviewing your return.
+      </div>
+    </div>
+    <br />
+    <div class="alert alert--danger">
+      <div class="alert__title">Computed tax is outside tolerance of Square's reported tax</div>
+      <div class="alert__description">
+        Wake County is the largest contributor to this gap. Check your service-charge
+        mapping before filing.
+      </div>
+    </div>±
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Card</h2>
+    <div class="card card--padded card--shadow-small" style="max-width: 320px;">
+      <div class="card__header"><strong>Wake County</strong></div>
+      <div class="card__body">
+        <p>Combined rate: <span class="badge badge--primary">7.25%</span></p>
+        <p>Taxable base: $4,182.55</p>
+      </div>
+      <div class="card__footer">
+        <button class="btn btn--small btn--primary">Copy amount</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <section class="preview-section">
+    <h2>Table (raw component, NOT the E-500/E-536 layout — just checking the theme on rows)</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>County</th>
+          <th>Local</th>
+          <th>Transit</th>
+          <th>Combined</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Wake</td>
+          <td>2.00%</td>
+          <td>0.50%</td>
+          <td><span class="badge badge--primary badge--pill">7.25%</span></td>
+        </tr>
+        <tr>
+          <td>Mecklenburg</td>
+          <td>2.00%</td>
+          <td>0.50%</td>
+          <td><span class="badge badge--primary badge--pill">8.25%</span></td>
+        </tr>
+        <tr>
+          <td>Durham</td>
+          <td>2.25%</td>
+          <td>0.50%</td>
+          <td><span class="badge badge--primary badge--pill">7.50%</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</body>
+</html>
