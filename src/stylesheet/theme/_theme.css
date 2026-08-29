@@ -1,0 +1,56 @@
+/*
+  Abacus Optics theme.
+  Optics themes are driven by HSL triplets — override the base tokens here rather
+  than hard-coding colors anywhere else in the app.
+
+  Keep this in sync with dev_notes/style-guide.html, which duplicates these
+  values for CDN-based prototyping outside the Vite build.
+*/
+
+:root {
+  /* Primary — Rust. Trying this in place of the original teal. The rails. */
+  --op-color-primary-h: 16;
+  --op-color-primary-s: 55%;
+  --op-color-primary-l: 42%;
+
+  /* Neutral — warm slate. Keeps dense number grids from reading clinical. */
+  --op-color-neutral-h: 30;
+  --op-color-neutral-s: 8%;
+  --op-color-neutral-l: 50%;
+
+  /*
+    Accent — Bead Amber (#F08F19). Project-prefixed per Optics convention since this
+    isn't a core Optics token. Accent only — copy buttons, active county row. Never
+    used for status; tolerance failures use --op-color-alerts-danger-* instead.
+  */
+  --ab-color-accent-h: 33;
+  --ab-color-accent-s: 88%;
+  --ab-color-accent-l: 52%;
+  --ab-color-accent-base: hsl(var(--ab-color-accent-h) var(--ab-color-accent-s) var(--ab-color-accent-l));
+
+  /*
+    Alerts — overriding danger and warning only; info (blue, h216) and notice (green,
+    h130) are already far enough from our warm primary/accent and pass contrast as-is.
+
+    danger: Optics' own default (h0 s99% l76%) FAILS WCAG AA in the filled variant —
+    white-on-background contrast is only ~2.35:1 against a 4.5:1 minimum, because the
+    default background is unusually light for a color meant to pair with white text.
+    Lowering lightness to 42% brings it to ~6.1:1 (solid AA, most of the way to AAA)
+    without going so dark it reads as brown instead of red. The default (non-filled)
+    alert variant was already fine either way — only the filled/solid-background case
+    was actually broken.
+
+    warning: contrast was already fine; the problem is hue-clustering. Optics' default
+    (h47) sits within ~31° of our primary rust (h16) and accent amber (h33) — three
+    warm colors clustered together defeats the purpose of a distinct warning color.
+    Pushed further into unambiguous yellow (h50) and boosted saturation so it reads as
+    a clearly different color at a glance, not just a different number.
+  */
+  --op-color-alerts-danger-h: 2;
+  --op-color-alerts-danger-s: 80%;
+  --op-color-alerts-danger-l: 42%;
+
+  --op-color-alerts-warning-h: 50;
+  --op-color-alerts-warning-s: 92%;
+  --op-color-alerts-warning-l: 55%;
+}
